@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     }
 
     private func startPicker() {
+        CountryManager.shared.blacklist = ["CN"]
         let countryPicker = CountryPickerViewController()
         countryPicker.selectedCountry = "TR"
         countryPicker.delegate = self

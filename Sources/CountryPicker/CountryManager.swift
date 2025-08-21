@@ -18,10 +18,14 @@ public final class CountryManager {
     // For localization we use current locale by default but you can change localeIdentifier for specific cases
     public var localeIdentifier: String = NSLocale.current.identifier
 
+    
+    public var blacklist: [String] = []
+    
     /// - Returns: Country array
     public func getCountries() -> [Country] {
         guard let path = Bundle.module.path(forResource: "countries", ofType: "json"),
               let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return [] }
-        return (try? JSONDecoder().decode([Country].self, from: data)) ?? []
+        let allCountries = (try? JSONDecoder().decode([Country].self, from: data)) ?? []
+        return allCountries.filter { !blacklist.contains($0.isoCode) }
     }
 }
